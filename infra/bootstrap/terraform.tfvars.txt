@@ -1,0 +1,5 @@
+project_id        = ""
+region            = ""
+state_bucket_name = ""
+enable_wif        = false
+github_repo       = ""

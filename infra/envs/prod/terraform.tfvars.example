@@ -1,0 +1,10 @@
+project_id = ""
+region = "us-central1"
+artifact_registry_name = "services"
+image_api = "gcr.io/cloudrun/hello"
+image_api_ai = "gcr.io/cloudrun/hello"
+
+domain_api    = ""
+domain_api_ai = ""
+
+alert_email = ""
