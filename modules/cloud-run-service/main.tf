@@ -36,6 +36,9 @@ resource "google_cloud_run_v2_service" "this" {
 
     containers {
       image = var.image
+      ports {
+        container_port = var.container_port
+      }
 
       resources {
         limits = {

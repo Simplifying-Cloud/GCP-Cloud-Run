@@ -69,6 +69,11 @@ variable "cpu_boost" {
 }
 
 # Networking & access
+variable "container_port" {
+  description = "Port the container listens on. Cloud Run terminates TLS on 443 and forwards traffic to this port; the value is injected into the container as PORT."
+  type        = number
+  default     = 8080
+}
 variable "ingress" {
   description = "What traffic can reach the service.  INGRESS_TRAFFIC_ALL (public), INGRESS_TRAFFIC_INTERNAL_ONLY, or INGRESS_TRAFFIC_INTERNAL_LOAD_BALANCER (when fronted by an LB)."
   type        = string

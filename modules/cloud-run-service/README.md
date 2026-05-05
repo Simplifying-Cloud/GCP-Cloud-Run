@@ -57,6 +57,7 @@ module "api_alpha" {
 - Setting `min_instances > 0` incurs cost 24/7. Use only when cold starts violate SLO.
 - The runtime service account is owned by this module. Grant it access to downstream resources (e.g. Secret Manager, Cloud SQL) using its email.
 - For secret env vars, the runtime SA needs `roles/secretmanager.secretAccessor` on the secret, granted outside this module.
+- Public traffic always arrives on `443`; Cloud Run terminates TLS and forwards to `container_port` (default `8080`). Override `container_port` if your app listens on a different port. The container must bind to `0.0.0.0:$PORT`, not `127.0.0.1`.
 
 ## Inputs
 
@@ -73,6 +74,7 @@ module "api_alpha" {
 | `concurrency` | number | `80` | Requests per instance. Lower values reduce concurrency; `80` is Cloud Run default. |
 | `timeout_seconds` | number | `30` | Request timeout in seconds. Max is `3600`. |
 | `cpu_boost` | bool | `true` | Enables extra CPU during cold start for lower startup latency. |
+| `container_port` | number | `8080` | Port the container listens on. Cloud Run terminates TLS on 443 and forwards traffic to this port; the value is also injected into the container as the `PORT` env var. |
 | `ingress` | string | `INGRESS_TRAFFIC_INTERNAL_ONLY` | Controls allowed traffic sources. Valid values: `INGRESS_TRAFFIC_ALL`, `INGRESS_TRAFFIC_INTERNAL_ONLY`, `INGRESS_TRAFFIC_INTERNAL_LOAD_BALANCER`. Default blocks public traffic; only internal traffic may reach the service. |
 | `allow_unauthenticated` | bool | `false` | When `true`, grants `roles/run.invoker` to `allUsers`, allowing unauthenticated public access. Default `false` requires callers to present a valid ID token. |
 | `env_vars` | map(string) | `{}` | Environment variables passed into the container. |
